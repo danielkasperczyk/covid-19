@@ -1,5 +1,5 @@
 <template>
-  <l-map style="height: 800px; width: 100%" :zoom="zoom" :center="center">
+  <l-map style="height: 60vh; width: 100%" :zoom="zoom" :center="center">
     <l-tile-layer :url="url"></l-tile-layer>
   </l-map>
 </template>
