@@ -16,6 +16,7 @@
 import Header from '@/components/Header.vue';
 import Map from '@/components/Map.vue';
 import Charts from '@/components/Charts.vue';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'App',
@@ -29,5 +30,12 @@ export default {
   data: () => ({
     //
   }),
+  methods: {
+    ...mapActions('data', ['fetchData']),
+  },
+  // TODO: move fetching data to separate component which fill be wraping Map and Charts Components
+  beforeCreated() {
+    this.fetchData();
+  },
 };
 </script>
