@@ -34,7 +34,7 @@ export default {
     ...mapActions('data', ['fetchData']),
   },
   // TODO: move fetching data to separate component which fill be wraping Map and Charts Components
-  beforeCreated() {
+  created() {
     this.fetchData();
   },
 };
