@@ -6,8 +6,20 @@ const data = {
     data: [],
   },
   getters: {
-    getData(state) {
-      return state.data;
+    getCountryData(state) {
+      // TODO: get country, cases, contryInfo (lat,long) from one data
+      // TODO: lat and long should be in one variable which will be array something like: markerLatLng: [47.313220, -1.319482]
+      const filteredArray = state.data.map(
+        ({ country, cases, countryInfo }) => {
+          const countryData = {
+            country,
+            cases,
+            latLng: [countryInfo.lat, countryInfo.long],
+          };
+          return countryData;
+        },
+      );
+      return filteredArray;
     },
   },
   mutations: {
@@ -20,7 +32,7 @@ const data = {
       const response = await axios.get(
         'https://disease.sh/v3/covid-19/countries?yesterday=true',
       );
-      commit('SET_DATA', response);
+      commit('SET_DATA', response.data);
     },
   },
 };
