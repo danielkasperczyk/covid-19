@@ -4,11 +4,11 @@ const data = {
   namespaced: true,
   state: {
     data: [],
+    globalData: [],
+    selectedCountry: [],
   },
   getters: {
-    getCountryData(state) {
-      // TODO: get country, cases, contryInfo (lat,long) from one data
-      // TODO: lat and long should be in one variable which will be array something like: markerLatLng: [47.313220, -1.319482]
+    getCountriesData(state) {
       const filteredArray = state.data.map(
         ({ country, cases, countryInfo }) => {
           const countryData = {
@@ -21,10 +21,19 @@ const data = {
       );
       return filteredArray;
     },
+    getGlobalData(state) {
+      return state.globalData;
+    },
   },
   mutations: {
     SET_DATA(state, payload) {
       state.data = payload;
+    },
+    SET_GLOBALDATA(state, payload) {
+      state.globalData = payload;
+    },
+    SET_COUNTRY(state, payload) {
+      state.selectedCountry = payload;
     },
   },
   actions: {
@@ -33,6 +42,20 @@ const data = {
         'https://disease.sh/v3/covid-19/countries?yesterday=true',
       );
       commit('SET_DATA', response.data);
+    },
+    async fetchGlobalData({ commit }) {
+      const response = await axios.get('https://disease.sh/v3/covid-19/all');
+      commit('SET_GLOBALDATA', response.data);
+    },
+    async fetchCountryData({ commit, getters }, text) {
+      if (!text) {
+        commit('SET_COUNTRY', getters.getGlobalData);
+      } else {
+        const response = await axios.get(
+          `https://disease.sh/v3/covid-19/countries/${text}`,
+        );
+        commit('SET_COUNTRY', response.data);
+      }
     },
   },
 };
