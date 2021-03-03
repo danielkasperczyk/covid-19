@@ -2,22 +2,18 @@
   <l-map style="height: 60vh; width: 100%" :zoom="zoom" :center="center">
     <l-tile-layer :url="url"></l-tile-layer>
     <l-marker
-      v-for="(data, index) in getCountryData"
+      v-for="(data, index) in getCountriesData"
       :lat-lng="data.latLng"
       :key="index"
+      @click="fetchCountryData(data.country)"
     >
-      <l-popup class="text-center">
-        {{ data.country }}
-        <br />
-        Cases: {{ data.cases }}
-      </l-popup>
     </l-marker>
   </l-map>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import { LMap, LTileLayer, LMarker, LPopup } from 'vue2-leaflet';
+import { mapGetters, mapActions } from 'vuex';
+import { LMap, LTileLayer, LMarker } from 'vue2-leaflet';
 
 export default {
   name: 'vue',
@@ -26,7 +22,6 @@ export default {
     LMap,
     LTileLayer,
     LMarker,
-    LPopup,
   },
   data() {
     return {
@@ -35,8 +30,11 @@ export default {
       center: [47.31322, -1.319482],
     };
   },
+  methods: {
+    ...mapActions('data', ['fetchCountryData']),
+  },
   computed: {
-    ...mapGetters('data', ['getCountryData']),
+    ...mapGetters('data', ['getCountriesData']),
   },
 };
 </script>
