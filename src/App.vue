@@ -31,11 +31,12 @@ export default {
     //
   }),
   methods: {
-    ...mapActions('data', ['fetchData']),
+    ...mapActions('data', ['fetchData', 'fetchGlobalData']),
   },
   // TODO: move fetching data to separate component which fill be wraping Map and Charts Components
   created() {
     this.fetchData();
+    this.fetchGlobalData();
   },
 };
 </script>
