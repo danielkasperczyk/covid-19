@@ -47,14 +47,15 @@ const data = {
       const response = await axios.get('https://disease.sh/v3/covid-19/all');
       commit('SET_GLOBALDATA', response.data);
     },
-    async fetchCountryData({ commit, getters }, text) {
-      if (!text) {
+    async fetchCountryData({ commit, state, getters }, country) {
+      if (!country) {
         commit('SET_COUNTRY', getters.getGlobalData);
       } else {
-        const response = await axios.get(
-          `https://disease.sh/v3/covid-19/countries/${text}`,
+        const city = state.data.filter(
+          (dataCountry) => dataCountry.country === country,
         );
-        commit('SET_COUNTRY', response.data);
+        console.log(city);
+        commit('SET_COUNTRY', city[0]);
       }
     },
   },
